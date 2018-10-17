@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+
+  <h2>Edit <%=ingredient.name %></h2>
+  <form method="POST" action="/ingredients/<%=ingredient.id %>?_method=PUT">
+    <input type="text" name="name" value="<%=ingredient.name %>">
+    <button>Update ingredient</button>
+  </form>
+
+</body>
+</html>

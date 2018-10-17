@@ -15,6 +15,8 @@ app.use(methodOverride('_method'));
 //CONTROLLERS
 const sandwichController = require('./controllers/sandwichController')
 app.use('/sandwiches', sandwichController)
+const ingredientController = require('./controllers/ingredientController')
+app.use('/ingredients', ingredientController)
 
 // default
 app.get('/', (req, res) => {

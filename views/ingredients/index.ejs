@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+  <h2>ingredient List</h2>
+  <ul>  
+    <% for (let i = 0; i < ingredients.length; i++) { -%>
+      <li>
+        <a href="/ingredients/<%= ingredients[i].id %>">
+        <%= ingredients[i].name %>
+        </a>
+        <a href="/ingredients/<%= ingredients[i].id %>/edit">
+        (Edit <%= ingredients[i].name %>)
+        </a>
+
+        <form action="/ingredients/<%= ingredients[i].id %>?_method=DELETE" method="POST">
+          <button>Delete <%= ingredients[i].name %></button>
+        </form>
+      </li>
+    <% } -%>
+  </ul>
+  <a href="/ingredients/new">Add a ingredient</a>
+</body>
+</html>

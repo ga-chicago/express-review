@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const Sandwich = require('../models/sandwich')
 
 //new
 router.get('/new', (req, res) => {
@@ -8,7 +9,9 @@ router.get('/new', (req, res) => {
 
 //create
 router.post('/', (req, res) => {
-  res.json(req.body);
+  Sandwich.create(req.body, (err, createdSandwich) => {
+    res.json(createdSandwich);    
+  });
 })
 
 module.exports = router;

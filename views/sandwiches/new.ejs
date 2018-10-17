@@ -8,6 +8,13 @@
   <h2>Add a sandwich</h2>
   <form method="POST" action="/sandwiches" placeholder="enter sandwich name!">
     <input type="text" name="name">
+
+    <% ingredients.forEach(ingred => { %>
+      <br>
+      <input type="checkbox" name="ingredients" value="<%=ingred.id%>">
+      <%= ingred.name %>
+    <% }) %>
+    <br>
     <button>Add Sandwich</button>
   </form>
 

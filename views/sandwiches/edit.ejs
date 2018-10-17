@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+
+  <h2>Edit <%=sandwich.name %></h2>
+  <form method="POST" action="/sandwiches/<%=sandwich.id %>?_method=PUT">
+    <input type="text" name="name" value="<%=sandwich.name %>">
+    <button>Update Sandwich</button>
+  </form>
+
+</body>
+</html>

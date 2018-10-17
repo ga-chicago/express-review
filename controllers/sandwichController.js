@@ -42,4 +42,21 @@ router.delete('/:id', (req, res) => {
   })
 })
 
+router.get('/:id/edit', (req, res) => {
+  Sandwich.findById(req.params.id, (err, foundSandwich) => {
+    res.render('sandwiches/edit.ejs', {
+      sandwich: foundSandwich
+    })    
+  })
+})
+
+router.put('/:id', (req, res) => {
+  Sandwich.findByIdAndUpdate(req.params.id, req.body, (err, updatedSandwich) => {
+    if(err) console.log(err);
+    res.redirect('/sandwiches/' + req.params.id);
+  })
+})
+
+
+
 module.exports = router;

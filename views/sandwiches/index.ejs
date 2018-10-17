@@ -11,6 +11,10 @@
         <a href="/sandwiches/<%= sandwiches[i].id %>">
         <%= sandwiches[i].name %>
         </a>
+        <a href="/sandwiches/<%= sandwiches[i].id %>/edit">
+        (Edit <%= sandwiches[i].name %>)
+        </a>
+
         <form action="/sandwiches/<%= sandwiches[i].id %>?_method=DELETE" method="POST">
           <button>Delete <%= sandwiches[i].name %></button>
         </form>

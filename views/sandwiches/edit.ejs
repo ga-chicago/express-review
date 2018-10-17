@@ -3,6 +3,18 @@
   <h2>Edit <%=sandwich.name %></h2>
   <form method="POST" action="/sandwiches/<%=sandwich.id %>?_method=PUT">
     <input type="text" name="name" value="<%=sandwich.name %>">
+
+    <p>ingredients:</p>
+    <% possibleIngredients.forEach(ingred => { %>
+      <br>
+      <input type="checkbox" name="ingredients" value="<%=ingred.id%>"
+      <% if(sandwich.ingredients.find(ing => ing.id == ingred.id)) { %>
+        checked
+      <% } %>
+      >
+      <%= ingred.name %>
+    <% }) %>
+    <br>
     <button>Update Sandwich</button>
   </form>
 

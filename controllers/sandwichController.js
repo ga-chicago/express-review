@@ -68,19 +68,36 @@ router.delete('/:id', (req, res) => {
   })
 })
 
+// edit
 router.get('/:id/edit', (req, res) => {
-  Sandwich.findById(req.params.id, (err, foundSandwich) => {
-    res.render('sandwiches/edit.ejs', {
-      sandwich: foundSandwich
-    })    
+  // this route now needs to get and send along 
+  // all ingredient possibilities in case user wants to change them
+  Ingredient.find({}, (err, foundIngredients) => {
+    Sandwich.findById(req.params.id, (err, foundSandwich) => {
+      console.log('foundIngredients');
+      console.log(foundIngredients);
+      console.log('foundSandwich');
+      console.log(foundSandwich);
+      res.render('sandwiches/edit.ejs', {
+        sandwich: foundSandwich,
+        possibleIngredients: foundIngredients
+      }) 
+    })
   })
 })
 
+// update
 router.put('/:id', (req, res) => {
-  Sandwich.findByIdAndUpdate(req.params.id, req.body, (err, updatedSandwich) => {
-    if(err) console.log(err);
-    res.redirect('/sandwiches/' + req.params.id);
-  })
+  // check req.body
+  res.json(req.body);
+  // manipulate on/off checkbox values in req.body to be true/fase
+
+  // do the update
+
+  // Sandwich.findByIdAndUpdate(req.params.id, req.body, (err, updatedSandwich) => {
+  //   if(err) console.log(err);
+  //   res.redirect('/sandwiches/' + req.params.id);
+  // })
 })
 
 

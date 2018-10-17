@@ -35,4 +35,11 @@ router.post('/', (req, res) => {
   });
 })
 
+router.delete('/:id', (req, res) => {
+  Sandwich.findByIdAndRemove(req.params.id, (err, deletedSandwich) => {
+    if(err) res.send('error', err);
+    res.redirect('/sandwiches')
+  })
+})
+
 module.exports = router;

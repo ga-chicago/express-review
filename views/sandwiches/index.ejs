@@ -1,9 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title></title>
-</head>
-<body>
+<% include ../partials/header.ejs %>
+
   <h2>Sandwich List</h2>
   <ul>  
     <% for (let i = 0; i < sandwiches.length; i++) { -%>
@@ -11,8 +7,9 @@
         <a href="/sandwiches/<%= sandwiches[i].id %>">
         <%= sandwiches[i].name %>
         </a>
+        &nbsp;
         <a href="/sandwiches/<%= sandwiches[i].id %>/edit">
-        (Edit <%= sandwiches[i].name %>)
+        (Edit)
         </a>
 
         <form action="/sandwiches/<%= sandwiches[i].id %>?_method=DELETE" method="POST">
@@ -21,6 +18,5 @@
       </li>
     <% } -%>
   </ul>
-  <a href="/sandwiches/new">Add a sandwich</a>
-</body>
-</html>
+
+<% include ../partials/footer.ejs %>

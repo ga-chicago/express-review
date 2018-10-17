@@ -1,9 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title></title>
-</head>
-<body>
+<% include ../partials/header.ejs %>
 
   <h2>Edit <%=sandwich.name %></h2>
   <form method="POST" action="/sandwiches/<%=sandwich.id %>?_method=PUT">
@@ -11,5 +6,4 @@
     <button>Update Sandwich</button>
   </form>
 
-</body>
-</html>
+<% include ../partials/footer.ejs %>

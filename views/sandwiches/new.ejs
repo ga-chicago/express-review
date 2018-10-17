@@ -1,13 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title></title>
-</head>
-<body>
+<% include ../partials/header.ejs %>
+
 
   <h2>Add a sandwich</h2>
-  <form method="POST" action="/sandwiches" placeholder="enter sandwich name!">
-    <input type="text" name="name">
+  <form method="POST" action="/sandwiches">
+    <input type="text" name="name" placeholder="enter sandwich name!">
 
     <% ingredients.forEach(ingred => { %>
       <br>
@@ -18,5 +14,4 @@
     <button>Add Sandwich</button>
   </form>
 
-</body>
-</html>
+<% include ../partials/footer.ejs %>

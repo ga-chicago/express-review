@@ -1,9 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title></title>
-</head>
-<body>
+<% include ../partials/header.ejs %>
+
   <h2>ingredient List</h2>
   <ul>  
     <% for (let i = 0; i < ingredients.length; i++) { -%>
@@ -11,8 +7,9 @@
         <a href="/ingredients/<%= ingredients[i].id %>">
         <%= ingredients[i].name %>
         </a>
+        &nbsp;
         <a href="/ingredients/<%= ingredients[i].id %>/edit">
-        (Edit <%= ingredients[i].name %>)
+        (Edit)
         </a>
 
         <form action="/ingredients/<%= ingredients[i].id %>?_method=DELETE" method="POST">
@@ -21,6 +18,5 @@
       </li>
     <% } -%>
   </ul>
-  <a href="/ingredients/new">Add a ingredient</a>
-</body>
-</html>
+
+<% include ../partials/footer.ejs %>

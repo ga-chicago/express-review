@@ -4,6 +4,7 @@ const PORT = 3000;
 const bodyParser = require('body-parser')
 
 //DB CONNECTION
+require('./db/db')
 
 //MIDDLEWARE
 app.use(bodyParser.urlencoded({extended: true}));

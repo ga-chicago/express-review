@@ -17,6 +17,16 @@ router.get('/new', (req, res) => {
   res.render('sandwiches/new.ejs');
 })
 
+// show
+router.get('/:id', (req, res) => {
+  Sandwich.findById(req.params.id, (err, foundSandwich) => {
+    res.render('sandwiches/show.ejs', {
+      sandwich: foundSandwich
+    })    
+  })
+})
+
+
 //create
 router.post('/', (req, res) => {
   Sandwich.create(req.body, (err, createdSandwich) => {

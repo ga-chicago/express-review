@@ -7,9 +7,14 @@
   <h2>Sandwich List</h2>
   <ul>  
     <% for (let i = 0; i < sandwiches.length; i++) { -%>
-      <li><%= sandwiches[i].name %></li>
+      <li>
+        <a href="/sandwiches/<%= sandwiches[i].id %>">
+        <%= sandwiches[i].name %>
+        </a>
+          
+      </li>
     <% } -%>
   </ul>
-
+  <a href="/sandwiches/new">Add a sandwich</a>
 </body>
 </html>

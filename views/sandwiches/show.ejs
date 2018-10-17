@@ -6,6 +6,14 @@
 <body>
   <h2>Show page for <%= sandwich.name %> </h2>
   <p>The sandwich's name is <%= sandwich.name %></p>
+  <h4>ingredients:</h4>
+  <ul>
+    <% for (let i = 0; i < sandwich.ingredients.length; i++) { -%>
+      <li>
+        <%= sandwich.ingredients[i].name %>
+      </li>
+    <% } -%>
+  </ul>
   <a href="/sandwiches">Sandwich list</a>
 </body>
 </html>

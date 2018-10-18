@@ -2,7 +2,15 @@
 
   <h2>Show page for <%= sandwich.name %> </h2>
   <p>The sandwich's name is <%= sandwich.name %></p>
-  <a href="/sandwiches">Sandwich list</a>
+
+  <ul>
+    <% sandwich.ingredients.forEach(ing => {-%>
+      <li>
+        <%= ing.name %>
+      </li>       
+    <% }) %>
+      
+  </ul>
 
   <% include ../partials/footer.ejs %>
 

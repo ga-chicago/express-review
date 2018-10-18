@@ -77,11 +77,14 @@ router.delete('/:id', async (req, res, next) => {
   }
 })
 
+// edit
 router.get('/:id/edit', async (req, res, next) => {
   try {
     const foundSandwich = await Sandwich.findById(req.params.id);
+    const possibleIngredients = await Ingredient.find({});
     res.render('sandwiches/edit.ejs', {
-      sandwich: foundSandwich
+      sandwich: foundSandwich,
+      possibleIngredients: possibleIngredients
     })    
   } catch(err) {
     next(err)

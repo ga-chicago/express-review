@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Sandwich = require('../models/sandwich')
-
+const Ingredient = require('../models/ingredient')
 
 //index
 router.get('/', async (req, res, next) => {
@@ -16,8 +16,16 @@ router.get('/', async (req, res, next) => {
 })
 
 //new
-router.get('/new', (req, res) => {
-  res.render('sandwiches/new.ejs');
+router.get('/new', async (req, res, next) => {
+  // get ingredients
+  try {
+    const possibleIngredients = await Ingredient.find({});
+    res.render('sandwiches/new.ejs', {
+      ingredients: possibleIngredients
+    });
+  } catch(err) {
+    next(err)
+  }
 })
 
 // show

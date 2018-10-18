@@ -1,8 +1,15 @@
   <% include ../partials/header.ejs %>
 
   <h2>Add a sandwich</h2>
-  <form method="POST" action="/sandwiches" placeholder="enter sandwich name!">
-    <input type="text" name="name">
+  <form method="POST" action="/sandwiches">
+    <input type="text" name="name" placeholder="enter sandwich name!">
+
+    <% ingredients.forEach(ingred => { %>
+      <br>
+      <input type="checkbox" name="ingredients" value="<%= ingred.id %>">
+      <%= ingred.name %>
+    <% }) %>
+    <br>
     <button>Add Sandwich</button>
   </form>
 

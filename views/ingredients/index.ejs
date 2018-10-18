@@ -1,9 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title></title>
-</head>
-<body>
+  <% include ../partials/header.ejs %>
+
   <h2>ingredient List</h2>
   <ul>  
     <% for (let i = 0; i < ingredients.length; i++) { -%>
@@ -22,5 +18,5 @@
     <% } -%>
   </ul>
   <a href="/ingredients/new">Add a ingredient</a>
-</body>
-</html>
+
+  <% include ../partials/footer.ejs %>

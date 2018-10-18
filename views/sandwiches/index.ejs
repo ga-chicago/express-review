@@ -1,9 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title></title>
-</head>
-<body>
+  <% include ../partials/header.ejs %>
+
   <h2>Sandwich List</h2>
   <ul>  
     <% for (let i = 0; i < sandwiches.length; i++) { -%>
@@ -22,5 +18,5 @@
     <% } -%>
   </ul>
   <a href="/sandwiches/new">Add a sandwich</a>
-</body>
-</html>
+
+  <% include ../partials/footer.ejs %>

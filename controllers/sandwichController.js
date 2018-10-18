@@ -43,8 +43,25 @@ router.get('/:id', async (req, res, next) => {
 
 //create
 router.post('/', async (req, res, next) => {
+  const sandwichToAdd = {
+    name: req.body.name
+  }
   try {
-    const createdSandwich = await Sandwich.create(req.body)
+    const createdSandwich = await Sandwich.create(sandwichToAdd)
+
+    // get ings from db
+    const desiredIngredients = await Ingredient.find({
+      _id: {
+        $in: req.body.ingredients
+      }
+    })
+
+    desiredIngredients.forEach(ingred => {
+      createdSandwich.ingredients.push(ingred)
+    })
+
+    const result = await createdSandwich.save();
+
     res.redirect('/sandwiches');     
   } catch(err) {
     next(err)

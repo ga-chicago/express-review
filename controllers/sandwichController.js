@@ -88,16 +88,24 @@ router.get('/:id/edit', (req, res) => {
 
 // update
 router.put('/:id', (req, res) => {
-  // check req.body
-  res.json(req.body);
-  // manipulate on/off checkbox values in req.body to be true/fase
-
-  // do the update
-
-  // Sandwich.findByIdAndUpdate(req.params.id, req.body, (err, updatedSandwich) => {
-  //   if(err) console.log(err);
-  //   res.redirect('/sandwiches/' + req.params.id);
-  // })
+  Sandwich.findById(req.params.id, (err, foundSandwich) => {
+    if(err) console.log(err);
+    foundSandwich.ingredients = [];
+    // make ingredients in foundSandwich.ingredients match ingredients in req.body.ingredients
+    // to do this we need all the ingredients
+    Ingredient.find({}, (err, allIngredients) => {
+      allIngredients.forEach(possIngredient => {
+        if(req.body.ingredients.findIndex(chosenIngId => possIngredient.id==chosenIngId) != -1) {
+          foundSandwich.ingredients.push(possIngredient) 
+          console.log('chosenIngredient:', possIngredient);
+        }
+      })
+      foundSandwich.save((err, result) => {
+        if(err) console.log(err);
+        else res.redirect('/sandwiches/' + req.params.id);
+      })
+    })
+  })
 })
 
 

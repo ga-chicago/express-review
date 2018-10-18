@@ -55,7 +55,6 @@ router.post('/', async (req, res, next) => {
         $in: req.body.ingredients
       }
     })
-
     desiredIngredients.forEach(ingred => {
       createdSandwich.ingredients.push(ingred)
     })
@@ -92,8 +91,24 @@ router.get('/:id/edit', async (req, res, next) => {
 })
 
 router.put('/:id', async (req, res, next) => {
+  console.log(req.body);
   try {
-    const updatedSandwich = await Sandwich.findByIdAndUpdate(req.params.id, req.body);   
+    const foundSandwich = await Sandwich.findById(req.params.id); 
+    foundSandwich.name = req.body.name
+    foundSandwich.ingredients = [];
+
+    // get ings from db
+    const desiredIngredients = await Ingredient.find({
+      _id: {
+        $in: req.body.ingredients
+      }
+    })
+    desiredIngredients.forEach(ingred => {
+      foundSandwich.ingredients.push(ingred)
+    })
+
+    await foundSandwich.save();
+
     res.redirect('/sandwiches/' + req.params.id);
   } catch(err) {
     next(err)

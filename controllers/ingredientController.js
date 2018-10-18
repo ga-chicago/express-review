@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Ingredient = require('../models/ingredient')
-
+const Sandwich = require('../models/sandwich')
 
 //index
 router.get('/', async (req, res, next) => {
@@ -63,10 +63,26 @@ router.get('/:id/edit', async (req, res, next) => {
   }
 })
 
+// update
 router.put('/:id', async (req, res, next) => {
   try {
     const updatedIngredient = await Ingredient.findByIdAndUpdate(req.params.id, req.body);
+    
+    // find any sandwiches that have this ingred and replace that ingredient with updated ingredient in the array
+    const sandwichesWithIng = await Sandwich.find({'ingredients._id': req.params.id})
+
+    // loop over those sandwiches and find the index of the ing and splice
+    sandwichesWithIng.forEach(
+      async (sand) => {
+        // find index of this ing
+        const index = sand.ingredients.findIndex(ing => ing.id == req.params.id);
+        sand.ingredients.splice(index, 1, updatedIngredient);
+        const result = await sand.save();
+      }
+    )
+
     res.redirect('/ingredients/' + req.params.id);
+
   } catch(err) {
     next(err)
   }

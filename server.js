@@ -7,7 +7,12 @@ const methodOverride = require('method-override')
 //DB CONNECTION
 require('./db/db')
 
+
 //MIDDLEWARE
+// app.use((req, res, next) => {
+//   console.log("MIDDLEWARE---every route passes thru here");
+//   next();
+// })
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(methodOverride('_method'));
 
@@ -20,7 +25,7 @@ app.use('/ingredients', ingredientController)
 
 // default
 app.get('/', (req, res) => {
-  app.send('whatchadoin');
+  res.send('whatchadoin');
 })
 
 

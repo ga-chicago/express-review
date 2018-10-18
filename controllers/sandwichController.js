@@ -4,12 +4,15 @@ const Sandwich = require('../models/sandwich')
 
 
 //index
-router.get('/', (req, res) => {
-  Sandwich.find({}, (err, foundSandwiches) => {
+router.get('/', async (req, res, next) => {
+  try {
+    const foundSandwiches = await Sandwich.find({})
     res.render('sandwiches/index.ejs', {
       sandwiches: foundSandwiches
     })
-  })
+  } catch(e) {
+    next(e)
+  }
 })
 
 //new
@@ -18,43 +21,55 @@ router.get('/new', (req, res) => {
 })
 
 // show
-router.get('/:id', (req, res) => {
-  Sandwich.findById(req.params.id, (err, foundSandwich) => {
+router.get('/:id', async (req, res, next) => {
+  try{
+    const foundSandwich = await Sandwich.findById(req.params.id)
     res.render('sandwiches/show.ejs', {
       sandwich: foundSandwich
     })    
-  })
+  }catch(e) {
+    next(e)
+  }
 })
 
 
 //create
-router.post('/', (req, res) => {
-  Sandwich.create(req.body, (err, createdSandwich) => {
-    // res.json(createdSandwich);   
-    res.redirect('/sandwiches') 
-  });
+router.post('/', async (req, res, next) => {
+  try {
+    const createdSandwich = await Sandwich.create(req.body)
+    res.redirect('/sandwiches');     
+  } catch(err) {
+    next(err)
+  }
 })
 
-router.delete('/:id', (req, res) => {
-  Sandwich.findByIdAndRemove(req.params.id, (err, deletedSandwich) => {
-    if(err) res.send('error', err);
+router.delete('/:id', async (req, res, next) => {
+  try {
+    const deletedSandwich = await Sandwich.findByIdAndRemove(req.params.id)
     res.redirect('/sandwiches')
-  })
+  } catch(err) {
+    next(err)
+  }
 })
 
-router.get('/:id/edit', (req, res) => {
-  Sandwich.findById(req.params.id, (err, foundSandwich) => {
+router.get('/:id/edit', async (req, res, next) => {
+  try {
+    const foundSandwich = await Sandwich.findById(req.params.id);
     res.render('sandwiches/edit.ejs', {
       sandwich: foundSandwich
     })    
-  })
+  } catch(err) {
+    next(err)
+  }
 })
 
-router.put('/:id', (req, res) => {
-  Sandwich.findByIdAndUpdate(req.params.id, req.body, (err, updatedSandwich) => {
-    if(err) console.log(err);
+router.put('/:id', async (req, res, next) => {
+  try {
+    const updatedSandwich = await Sandwich.findByIdAndUpdate(req.params.id, req.body);   
     res.redirect('/sandwiches/' + req.params.id);
-  })
+  } catch(err) {
+    next(err)
+  }
 })
 
 

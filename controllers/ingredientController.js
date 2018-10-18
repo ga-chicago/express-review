@@ -45,7 +45,22 @@ router.post('/', async (req, res, next) => {
 
 router.delete('/:id', async (req, res, next) => {
   try {
-    const deletedIngredient = await Ingredient.findByIdAndRemove(req.params.id)
+    const deletedIngredient = await Ingredient.findByIdAndRemove(req.params.id);
+
+    // find any sandwiches that have this ingred and replace that ingredient with updated ingredient in the array
+    const sandwichesWithIng = await Sandwich.find({'ingredients._id': req.params.id})
+
+    // loop over those sandwiches and find the index of the ing and splice
+    sandwichesWithIng.forEach(
+      async (sand) => {
+        // find index of this ing
+        const index = sand.ingredients.findIndex(ing => ing.id == req.params.id);
+        sand.ingredients.splice(index, 1);
+        const result = await sand.save(); // this is not good -- await/promise resolution in a loop could be very slow at scale
+                                          // possible solution: use Promise.all (see notes)
+      }
+    )
+
     res.redirect('/ingredients')
   } catch(err) {
     next(err)

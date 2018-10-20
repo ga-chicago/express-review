@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+  <style type="text/css">
+    .message {
+      border: 1px solid red;
+      background-color: pink;
+    }
+  </style>
+
+  <h2>Welcome back, log in here!</h2>
+  <%if(message) { %>
+    <p class="message">
+      <%= message %>
+    </p>
+  <% } %>
+  <form method="POST" action="/auth/login">
+    <input type="username" name="username" placeholder="username">
+    <input type="password" name="password" placeholder="password">
+    <button>Login!</button>
+  </form>
+  <p><small>Need an account? Sign up <a href="/auth/register">here</a></small></p>
+</body>
+</html>

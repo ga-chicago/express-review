@@ -3,109 +3,116 @@ const router = express.Router();
 const Sandwich = require('../models/sandwich')
 const Ingredient = require('../models/ingredient')
 
-
 //index
-router.get('/', (req, res) => {
-  Sandwich.find({}, (err, foundSandwiches) => {
+router.get('/', async (req, res, next) => {
+  try {
+    const foundSandwiches = await Sandwich.find({})
     res.render('sandwiches/index.ejs', {
       sandwiches: foundSandwiches
     })
-  })
+  } catch(e) {
+    next(e)
+  }
 })
 
 //new
-router.get('/new', (req, res) => {
-  // get ingredients first
-  Ingredient.find({}, (err, foundIngredients) => {
+router.get('/new', async (req, res, next) => {
+  // get ingredients
+  try {
+    const possibleIngredients = await Ingredient.find({});
     res.render('sandwiches/new.ejs', {
-      ingredients: foundIngredients
+      ingredients: possibleIngredients
     });
-        
-  })
+  } catch(err) {
+    next(err)
+  }
 })
 
 // show
-router.get('/:id', (req, res) => {
-  Sandwich.findById(req.params.id, (err, foundSandwich) => {
+router.get('/:id', async (req, res, next) => {
+  try{
+    const foundSandwich = await Sandwich.findById(req.params.id)
     res.render('sandwiches/show.ejs', {
       sandwich: foundSandwich
     })    
-  })
+  }catch(e) {
+    next(e)
+  }
 })
 
 
 //create
-router.post('/', (req, res) => {
-  console.log(req.body.ingredients);
+router.post('/', async (req, res, next) => {
   const sandwichToAdd = {
     name: req.body.name
   }
-  Sandwich.create(sandwichToAdd, (err, createdSandwich) => {
-    console.log("---------------------------here is created sandwich");
-    console.log(createdSandwich);
-    Ingredient.find({
+  try {
+    const createdSandwich = await Sandwich.create(sandwichToAdd)
+
+    // get ings from db
+    const desiredIngredients = await Ingredient.find({
       _id: {
         $in: req.body.ingredients
       }
-    }, (err, foundIngredients) => {
-      foundIngredients.forEach(ing => {
-        createdSandwich.ingredients.push(ing)
-      })
-      createdSandwich.save((err, result) => {
-        if(err) console.log(err); {
-          console.log(result);
-          res.redirect('/sandwiches') 
-        }
-      })
     })
-  });
+    desiredIngredients.forEach(ingred => {
+      createdSandwich.ingredients.push(ingred)
+    })
+
+    const result = await createdSandwich.save();
+
+    res.redirect('/sandwiches');     
+  } catch(err) {
+    next(err)
+  }
 })
 
-router.delete('/:id', (req, res) => {
-  Sandwich.findByIdAndRemove(req.params.id, (err, deletedSandwich) => {
-    if(err) res.send('error', err);
+router.delete('/:id', async (req, res, next) => {
+  try {
+    const deletedSandwich = await Sandwich.findByIdAndRemove(req.params.id)
     res.redirect('/sandwiches')
-  })
+  } catch(err) {
+    next(err)
+  }
 })
 
 // edit
-router.get('/:id/edit', (req, res) => {
-  // this route now needs to get and send along 
-  // all ingredient possibilities in case user wants to change them
-  Ingredient.find({}, (err, foundIngredients) => {
-    Sandwich.findById(req.params.id, (err, foundSandwich) => {
-      console.log('foundIngredients');
-      console.log(foundIngredients);
-      console.log('foundSandwich');
-      console.log(foundSandwich);
-      res.render('sandwiches/edit.ejs', {
-        sandwich: foundSandwich,
-        possibleIngredients: foundIngredients
-      }) 
-    })
-  })
+router.get('/:id/edit', async (req, res, next) => {
+  try {
+    const foundSandwich = await Sandwich.findById(req.params.id);
+    const possibleIngredients = await Ingredient.find({});
+    res.render('sandwiches/edit.ejs', {
+      sandwich: foundSandwich,
+      possibleIngredients: possibleIngredients
+    })    
+  } catch(err) {
+    next(err)
+  }
 })
 
-// update
-router.put('/:id', (req, res) => {
-  Sandwich.findById(req.params.id, (err, foundSandwich) => {
-    if(err) console.log(err);
+router.put('/:id', async (req, res, next) => {
+  console.log(req.body);
+  try {
+    const foundSandwich = await Sandwich.findById(req.params.id); 
+    foundSandwich.name = req.body.name
     foundSandwich.ingredients = [];
-    // make ingredients in foundSandwich.ingredients match ingredients in req.body.ingredients
-    // to do this we need all the ingredients
-    Ingredient.find({}, (err, allIngredients) => {
-      allIngredients.forEach(possIngredient => {
-        if(req.body.ingredients.findIndex(chosenIngId => possIngredient.id==chosenIngId) != -1) {
-          foundSandwich.ingredients.push(possIngredient) 
-          console.log('chosenIngredient:', possIngredient);
-        }
-      })
-      foundSandwich.save((err, result) => {
-        if(err) console.log(err);
-        else res.redirect('/sandwiches/' + req.params.id);
-      })
+
+    // get ings from db
+    const desiredIngredients = await Ingredient.find({
+      _id: {
+        $in: req.body.ingredients
+      }
     })
-  })
+    desiredIngredients.forEach(ingred => {
+      foundSandwich.ingredients.push(ingred)
+    })
+
+    await foundSandwich.save();
+
+    res.redirect('/sandwiches/' + req.params.id);
+  } catch(err) {
+    next(err)
+  }
 })
 
 

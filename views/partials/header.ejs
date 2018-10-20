@@ -4,11 +4,27 @@
   <title></title>
 </head>
 <body>
-  <header>
-    <nav>
-      <a href="/sandwiches">Sandwiches List</a>
-      | <a href="/sandwiches/new">Add a sandwich</a>
-      | <a href="/ingredients">Ingredients List</a>
-      | <a href="/ingredients/new">Add an ingredient</a>
-    </nav>
-  </header>
+
+<style type="text/css">
+  header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+
+</style>
+
+<header>
+  <nav>
+    <a href="/sandwiches">Sandwich list</a>
+    | <a href="/sandwiches/new">Add a sandwich</a>
+    | <a href="/ingredients">Ingredient list</a>
+    | <a href="/ingredients/new">Add an ingredient</a>
+  </nav>
+
+  <nav>
+    <a href="/auth/register">Sign up!</a>
+    <a href="/auth/login">Log in</a>
+    <a href="/auth/logout">Log out</a>
+  </nav>
+</header>

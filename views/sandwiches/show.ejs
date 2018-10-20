@@ -1,14 +1,15 @@
-<% include ../partials/header.ejs %>
+  <% include ../partials/header.ejs %>
 
   <h2>Show page for <%= sandwich.name %> </h2>
   <p>The sandwich's name is <%= sandwich.name %></p>
-  <h4>ingredients:</h4>
+
   <ul>
-    <% for (let i = 0; i < sandwich.ingredients.length; i++) { -%>
+    <% sandwich.ingredients.forEach(ing => {-%>
       <li>
-        <%= sandwich.ingredients[i].name %>
-      </li>
-    <% } -%>
+        <%= ing.name %>
+      </li>       
+    <% }) %>
+      
   </ul>
 
-<% include ../partials/footer.ejs %>
+  <% include ../partials/footer.ejs %>

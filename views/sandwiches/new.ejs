@@ -1,5 +1,4 @@
-<% include ../partials/header.ejs %>
-
+  <% include ../partials/header.ejs %>
 
   <h2>Add a sandwich</h2>
   <form method="POST" action="/sandwiches">
@@ -7,11 +6,11 @@
 
     <% ingredients.forEach(ingred => { %>
       <br>
-      <input type="checkbox" name="ingredients" value="<%=ingred.id%>">
+      <input type="checkbox" name="ingredients" value="<%= ingred.id %>">
       <%= ingred.name %>
     <% }) %>
     <br>
     <button>Add Sandwich</button>
   </form>
 
-<% include ../partials/footer.ejs %>
+  <% include ../partials/footer.ejs %>
